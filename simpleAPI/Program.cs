@@ -1,7 +1,27 @@
+using simpleAPI.middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+ void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    app.UseMiddleware<LoggingMiddleware>();
+
+    app.UseRouting();
+
+}
+ void ConfigureServices(IServiceCollection services)
+{
+    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                };
+            });
+}
+
 
 var app = builder.Build();
 
